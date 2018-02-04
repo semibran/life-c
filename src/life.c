@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "life.h"
 
@@ -17,6 +18,7 @@ void generate(unsigned char data[], int width, int height) {
 }
 
 void update(unsigned char copy[], unsigned char data[], int width, int height) {
+  int area = width * height;
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       int i = y * width + x;
@@ -45,10 +47,7 @@ void update(unsigned char copy[], unsigned char data[], int width, int height) {
              || n == 2 && data[i] == 1;
     }
   }
-  int area = width * height;
-  for (int i = 0; i < area; i++) {
-    data[i] = copy[i];
-  }
+  memcpy(data, copy, area);
 }
 
 void render(unsigned char pixels[], unsigned char data[], int width, int height) {
