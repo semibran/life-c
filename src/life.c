@@ -1,40 +1,56 @@
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include "generate.h"
-#include "update.h"
-#include "render.h"
+#include <stdlib.h>
+#include "life.h"
 
-const int width = 256;
-const int height = 256;
-
-int main(void) {
-  unsigned char data[width * height];
-  unsigned char copy[width * height];
-  unsigned char pixels[width * height * 4];
-  generate(data, width, height);
-  SDL_Init(SDL_INIT_VIDEO);
-  SDL_Window *window = SDL_CreateWindow("life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, width, height);
-  while (1) {
-    SDL_Event event;
-    if (SDL_PollEvent(&event)) {
-      if (event.type == SDL_QUIT) {
-        break;
-      }
-    }
-    update(copy, data, width, height);
-    render(pixels, data, width, height);
-    SDL_UpdateTexture(texture, NULL, pixels, width * 4);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
-    SDL_RenderPresent(renderer);
-    SDL_Delay(16);
+void generate(unsigned char data[], int width, int height) {
+  int area = width * height;
+  for (int i = 0; i < area; i++) {
+    data[i] = rand() % 2;
   }
-  SDL_DestroyTexture(texture);
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-  return 0;
+}
+
+void update(unsigned char copy[], unsigned char data[], int width, int height) {
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      int i = y * width + x;
+      int n = 0;
+      for (int dy = -1; dy <= 1; dy++) {
+        for (int dx = -1; dx <= 1; dx++) {
+          if (!dx && !dy) continue;
+          int nx = x + dx;
+          int ny = y + dy;
+          if (nx < 0) {
+            nx += width;
+          } else if (nx >= width) {
+            nx -= width;
+          }
+          if (ny < 0) {
+            ny += height;
+          } else if (ny >= height) {
+            ny -= height;
+          }
+          if (data[ny * width + nx]) {
+            n++;
+          }
+        }
+      }
+      copy[i] = n == 3
+             || n == 2 && data[i] == 1;
+    }
+  }
+  int area = width * height;
+  for (int i = 0; i < area; i++) {
+    data[i] = copy[i];
+  }
+}
+
+void render(unsigned char pixels[], unsigned char data[], int width, int height) {
+  int area = width * height;
+  for (int i = 0; i < area; i++) {
+    int value = data[i] == 1 ? 255 : 0;
+    int index = i * 4;
+    pixels[index + 0] = value;
+    pixels[index + 1] = value;
+    pixels[index + 2] = value;
+    pixels[index + 3] = 255;
+  }
 }
