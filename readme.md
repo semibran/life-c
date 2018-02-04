@@ -8,7 +8,8 @@ A minimalistic implementation of [Conway's Game of Life](https://en.wikipedia.or
 git clone git@github.com:semibran/life-c
 cd life-c
 mkdir dist
-gcc src/life.c -lSDL2 -o dist/life
+make
+./dist/life
 ```
 
 ## license
