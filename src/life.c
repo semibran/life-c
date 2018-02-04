@@ -1,10 +1,18 @@
 #include <stdlib.h>
+#include <math.h>
 #include "life.h"
 
 void generate(unsigned char data[], int width, int height) {
   int area = width * height;
+  float r = width / 2;
+  float m = width / 3;
   for (int i = 0; i < area; i++) {
-    data[i] = rand() % 2;
+    int x = i % width;
+    int y = (i - x) / width;
+    float dx = r - x;
+    float dy = r - y;
+    float d = sqrt(dx * dx + dy * dy);
+    data[i] = rand() / (RAND_MAX + 1.0) > d / m && rand() % 2;
   }
 }
 
