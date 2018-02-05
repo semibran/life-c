@@ -1,5 +1,5 @@
 # life-c
-A minimalistic implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) in C. Uses SDL for graphics.
+A minimalistic implementation of [Conway's Game of Life] in C. Uses SDL for graphics.
 
 ![screenshot](life.png)
 
@@ -13,4 +13,8 @@ make
 ```
 
 ## license
-[MIT](https://opensource.org/licenses/MIT) © [Brandon Semilla](https://git.io/semibran)
+[MIT] © [Brandon Semilla]
+
+[conway's game of life]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
+[MIT]:                   https://opensource.org/licenses/MIT
+[Brandon Semilla]:       https://github.com/semibran
