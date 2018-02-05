@@ -21,7 +21,7 @@ int main(void) {
         break;
       }
     }
-    update(copy, data, width, height);
+    update(data, copy, width, height);
     render(pixels, data, width, height);
     SDL_UpdateTexture(texture, NULL, pixels, width * 4);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);

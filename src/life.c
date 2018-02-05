@@ -17,8 +17,7 @@ void generate(unsigned char data[], int width, int height) {
   }
 }
 
-void update(unsigned char copy[], unsigned char data[], int width, int height) {
-  int area = width * height;
+void update(unsigned char data[], unsigned char copy[], int width, int height) {
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       int i = y * width + x;
@@ -47,7 +46,7 @@ void update(unsigned char copy[], unsigned char data[], int width, int height) {
              || n == 2 && data[i] == 1;
     }
   }
-  memcpy(data, copy, area);
+  memcpy(data, copy, width * height);
 }
 
 void render(unsigned char pixels[], unsigned char data[], int width, int height) {
